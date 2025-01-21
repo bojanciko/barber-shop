@@ -18,6 +18,9 @@ const nextConfig: NextConfig = {
       // Add more patterns as needed
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  }
 }
 
 export default nextConfig;

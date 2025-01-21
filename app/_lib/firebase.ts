@@ -4,7 +4,7 @@ import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCJVUM8tCdSBm9NYTqokT1_K6w0wwpG80o",
-  authDomain: "https://barber-shop-nbidbavzt-bojancikos-projects.vercel.app/",
+  authDomain: "https://barber-shop-chi-rouge.vercel.app",
   projectId: "barber-ad6c5",
   storageBucket: "barber-ad6c5.firebasestorage.app",
   messagingSenderId: "392571293815",

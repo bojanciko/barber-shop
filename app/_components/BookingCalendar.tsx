@@ -9,7 +9,7 @@ export default function BookingPage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [bookedSlots, setBookedSlots] = useState([]);
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const timeSlots = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
 
 
@@ -27,12 +27,12 @@ export default function BookingPage() {
     }
   }, [selectedDate, showModal]);
 
-  const handleDateChange = (date) => {
+  const handleDateChange = (date: any) => {
     setSelectedDate(date);
     setShowModal(true);
   };
 
-  const handleTimeSelect = async (time) => {
+  const handleTimeSelect = async (time: any) => {
     setSelectedTime(time);
 
     // alert(`Booking confirmed for ${selectedDate.toDateString()} at ${time}`);

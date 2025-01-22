@@ -14,27 +14,29 @@ export default function BookingPage() {
 
 
   useEffect(() => {
+    if (!showModal) return;
     const fetchBookedSlots = async () => {
-      const formattedDate = selectedDate.toISOString().split('T')[0];
+      const formattedDate = selectedDate.toLocaleDateString('en-CA');
+      console.log(formattedDate)
       const q = query(collection(db, "appointments"), where("date", "==", formattedDate));
       const querySnapshot = await getDocs(q);
       const bookedTimes = querySnapshot.docs.map(doc => doc.data().time);
+      console.log(bookedTimes)
       setBookedSlots(bookedTimes);
     };
 
-    if (showModal) {
-      fetchBookedSlots();
-    }
+    fetchBookedSlots();
   }, [selectedDate, showModal]);
 
   const handleDateChange = (date: any) => {
     setSelectedDate(date);
+    setSelectedTime(null);
     setShowModal(true);
   };
 
   const handleTimeSelect = async (time: any) => {
     setSelectedTime(time);
-
+    console.log(time)
     // alert(`Booking confirmed for ${selectedDate.toDateString()} at ${time}`);
   };
 
@@ -43,7 +45,10 @@ export default function BookingPage() {
       alert("Please select a time slot.");
       return;
     }
-    await addDoc(collection(db, "appointments"), { date: selectedDate.toISOString().split('T')[0], selectedTime });
+    const formattedDate = selectedDate.toLocaleDateString('en-CA');
+    await addDoc(collection(db, "appointments"), { date: formattedDate, time: selectedTime });
+    alert(`Booking confirmed for ${selectedDate.toDateString()} at ${selectedTime}`);
+    setBookedSlots([...bookedSlots, selectedTime]);
     setShowModal(false);
   }
 
@@ -57,7 +62,7 @@ export default function BookingPage() {
             <h2 className="text-lg font-semibold mb-4">Select Time Slot for {selectedDate.toDateString()}</h2>
             <div className="grid grid-cols-3 gap-2">
               {timeSlots.map((time) => (
-                <button key={time} className={`p-2 rounded ${bookedSlots.includes(time) ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 text-white'}`} onClick={() => !bookedSlots.includes(time) && handleTimeSelect(time)} disabled={bookedSlots.includes(time)}>
+                <button key={time} className={`p-2 rounded ${bookedSlots.includes(time) ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 text-white'} ${selectedTime === time ? 'bg-red-600' : ''}`} onClick={() => !bookedSlots.includes(time) && handleTimeSelect(time)} disabled={bookedSlots.includes(time)}>
                   {time}
                 </button>
               ))}
